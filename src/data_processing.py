@@ -6,6 +6,17 @@ yahoo_data = pd.read_csv('AAPL_yahoo.csv')
 alpha_data = pd.read_csv('AAPL_alpha_vantage.csv')
 quandl_data = pd.read_csv('AAPL_quandl.csv')
 
+# Check the column names
+print("Yahoo Data Columns:", yahoo_data.columns)
+print("Alpha Data Columns:", alpha_data.columns)
+print("Quandl Data Columns:", quandl_data.columns)
+
+
+# Convert 'Date' to datetime format
+yahoo_data['Date'] = pd.to_datetime(yahoo_data['Date'])
+alpha_data['Date'] = pd.to_datetime(alpha_data['Date'])
+quandl_data['Date'] = pd.to_datetime(quandl_data['Date'])
+
 # Combine data
 combined_data = pd.merge(yahoo_data, alpha_data, on='Date')
 combined_data = pd.merge(combined_data, quandl_data, on='Date')
