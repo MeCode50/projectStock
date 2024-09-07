@@ -6,6 +6,9 @@ yahoo_data = pd.read_csv('AAPL_yahoo.csv')
 alpha_data = pd.read_csv('AAPL_alpha_vantage.csv')
 quandl_data = pd.read_csv('AAPL_quandl.csv')
 
+# Rename 'date' to 'Date' in alpha_data
+alpha_data.rename(columns={'date': 'Date'}, inplace=True)
+
 # Check the column names
 print("Yahoo Data Columns:", yahoo_data.columns)
 print("Alpha Data Columns:", alpha_data.columns)
