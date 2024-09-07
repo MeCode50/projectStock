@@ -17,7 +17,7 @@ print("Quandl Data Columns:", quandl_data.columns)
 
 # Convert 'Date' to datetime format
 yahoo_data['Date'] = pd.to_datetime(yahoo_data['Date'])
-alpha_data['Date'] = pd.to_datetime(alpha_data['Date'])
+alpha_data['Date'] = pd.to_datetime(alpha_data['Date'])  
 quandl_data['Date'] = pd.to_datetime(quandl_data['Date'])
 
 # Combine data
