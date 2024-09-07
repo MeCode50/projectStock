@@ -21,8 +21,10 @@ combined_data['MACD'] = combined_data['Close'].ewm(span=12, adjust=False).mean()
 combined_data['Signal'] = combined_data['MACD'].ewm(span=9, adjust=False).mean()
 combined_data['RSI'] = 100 - (100 / (1 + combined_data['Close'].diff(1).apply(lambda x: max(x, 0)).rolling(window=14).mean() / 
                                      combined_data['Close'].diff(1).apply(lambda x: abs(x)).rolling(window=14).mean()))
-combined_data['Williams %R'] = (combined_data['High'].rolling(window=14).max() - combined_data['Close']) / 
-                               (combined_data['High'].rolling(window=14).max() - combined_data['Low'].rolling(window=14).min()) * -100
+combined_data['Williams %R'] = ((combined_data['High'].rolling(window=14).max() - combined_data['Close']) / 
+                               (combined_data['High'].rolling(window=14).max() - combined_data['Low'].rolling(window=14).min())) * -100
+
+
 
 # Select features and target variable
 features = ['Open', 'High', 'Low', 'Close', 'Volume', 'MA50', 'MA200', 'ROC', 'MACD', 'Signal', 'RSI', 'Williams %R']
