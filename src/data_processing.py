@@ -6,19 +6,19 @@ yahoo_data = pd.read_csv('AAPL_yahoo.csv')
 alpha_data = pd.read_csv('AAPL_alpha_vantage.csv')
 quandl_data = pd.read_csv('AAPL_quandl.csv')
 
-# Rename 'date' to 'Date' in alpha_data
-alpha_data.rename(columns={'date': 'Date'}, inplace=True)
+# Rename columns to have consistent names
+alpha_data.rename(columns={'1. open': 'Open', '2. high': 'High', '3. low': 'Low', '4. close': 'Close', '5. volume': 'Volume'}, inplace=True)
+quandl_data.rename(columns={'Adj. Open': 'Open', 'Adj. High': 'High', 'Adj. Low': 'Low', 'Adj. Close': 'Close', 'Adj. Volume': 'Volume'}, inplace=True)
 
 # Check the column names
 print("Yahoo Data Columns:", yahoo_data.columns)
 print("Alpha Data Columns:", alpha_data.columns)
 print("Quandl Data Columns:", quandl_data.columns)
 
-
 # Convert 'Date' to datetime format
-yahoo_data['Date'] = pd.to_datetime(yahoo_data['Date'])
-alpha_data['Date'] = pd.to_datetime(alpha_data['Date'])  
-quandl_data['Date'] = pd.to_datetime(quandl_data['Date'])
+yahoo_data['Date'] = pd.to_datetime(yahoo_data['Date'], utc=True)
+alpha_data['Date'] = pd.to_datetime(alpha_data['Date'], utc=True)
+quandl_data['Date'] = pd.to_datetime(quandl_data['Date'], utc=True)
 
 # Combine data
 combined_data = pd.merge(yahoo_data, alpha_data, on='Date')
@@ -37,8 +37,6 @@ combined_data['RSI'] = 100 - (100 / (1 + combined_data['Close'].diff(1).apply(la
                                      combined_data['Close'].diff(1).apply(lambda x: abs(x)).rolling(window=14).mean()))
 combined_data['Williams %R'] = ((combined_data['High'].rolling(window=14).max() - combined_data['Close']) / 
                                (combined_data['High'].rolling(window=14).max() - combined_data['Low'].rolling(window=14).min())) * -100
-
-
 
 # Select features and target variable
 features = ['Open', 'High', 'Low', 'Close', 'Volume', 'MA50', 'MA200', 'ROC', 'MACD', 'Signal', 'RSI', 'Williams %R']
